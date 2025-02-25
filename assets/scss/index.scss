@@ -1,0 +1,134 @@
+@use "./reset";
+@use "./root";
+
+#__nuxt {
+  color: var(--color-black);
+}
+
+.container {
+  padding: 0 48px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.text {
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.h2 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.h3 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.text-flex {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.figcaption {
+  margin-bottom: 10px;
+}
+
+.ul {
+  @extend .text-flex;
+
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.ol {
+  @extend .text-flex;
+
+  // list-style-type: decimal;
+  counter-reset: num;
+
+  li {
+    &::before {
+      content: counter(num) ". "; /* Выводим число */
+      counter-increment: num;
+    }
+  }
+}
+
+@mixin ui-my-component {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  padding: 12px;
+}
+
+.input {
+  @include ui-my-component;
+
+  &::placeholder {
+    color: var(--color-gray);
+  }
+}
+
+.btn {
+  @include ui-my-component;
+
+  background-color: var(--button-color);
+  text-align: center;
+}
+
+.label {
+  position: relative;
+}
+
+.label__question {
+  background-color: var(--icon-color);
+  color: var(--color-white);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 5.25px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn__top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 6px;
+  margin-bottom: 6px;
+}
+
+.btn__bottom {
+  color: var(--color-gray);
+  font-size: 16px;
+}
+
+.form {
+  display: flex;
+  row-gap: 6px;
+  flex-direction: column;
+  margin-bottom: 6px;
+}
+
+.form__flex {
+  display: flex;
+  column-gap: 6px;
+
+  & > * {
+    flex-grow: 0;
+    flex-basis: calc(50% - 3px);
+  }
+}
