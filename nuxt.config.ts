@@ -16,4 +16,27 @@ export default defineNuxtConfig({
   devServer: {
     port: 3030,
   },
+  app: {
+    head: {
+      link: [
+        {
+          rel: "preconnect",
+          href: "https://fonts.googleapis.com",
+        },
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossorigin: "",
+        },
+        {
+          href: "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap",
+          rel: "stylesheet",
+        },
+        {
+          href: "https://fonts.googleapis.com/css2?family=Titan+One&display=swap",
+          rel: "stylesheet",
+        },
+      ],
+    },
+  },
 });

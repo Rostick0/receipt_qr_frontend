@@ -7,6 +7,7 @@
 
 <style lang="scss" scoped>
 .logo {
+  font-family: "Titan One", serif;
   display: flex;
   align-items: center;
   column-gap: 24px;

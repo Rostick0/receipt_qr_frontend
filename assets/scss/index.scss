@@ -1,6 +1,10 @@
 @use "./reset";
 @use "./root";
 
+body {
+  font-family: var(--font-family);
+}
+
 #__nuxt {
   color: var(--color-black);
 }
@@ -64,6 +68,7 @@
 @mixin ui-my-component {
   border: 1px solid var(--border-color);
   border-radius: 6px;
+  font-family: var(--font-family);
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.02em;
