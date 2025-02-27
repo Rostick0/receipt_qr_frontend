@@ -47,7 +47,6 @@ body {
 }
 
 .text-flex {
-  font-size: 20px;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -142,15 +141,6 @@ body {
   margin-bottom: 6px;
 }
 
-.btn__bottom {
-  color: var(--color-gray);
-  font-size: 16px;
-
-  @media (max-width: 1024px) {
-    font-size: 14px;
-  }
-}
-
 .form {
   display: flex;
   row-gap: 6px;
@@ -167,5 +157,21 @@ body {
     flex-grow: 0;
     flex-basis: calc(50% - 3px);
     width: 100%;
+  }
+}
+
+.text-size-default {
+  font-size: 20px;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+.text-size-small {
+  font-size: 16px;
+
+  @media (max-width: 1024px) {
+    font-size: 14px;
   }
 }

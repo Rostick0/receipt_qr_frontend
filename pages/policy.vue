@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2 class="h2 mb-3">Политика конфиденциальности и обработки данных</h2>
-    <div class="text-flex">
+    <div class="text-flex text-size-default">
       <div class="text-flex">
         <h3 class="h3">1. Общие положения</h3>
         <p>

@@ -70,6 +70,7 @@
       height="706"
     />
   </UiModalHint>
+  <Receipt />
 </template>
 
 <script setup>

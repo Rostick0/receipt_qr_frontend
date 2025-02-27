@@ -5,7 +5,7 @@
         <span>Проверить</span>
         <IconQrCode />
       </span>
-      <span class="btn__bottom"
+      <span class="text-size-small color-gray"
         >Подготовке вашу веб-камеру или заднею камеру телефона</span
       >
     </button>
@@ -14,7 +14,7 @@
         <span>Загрузить чек</span>
         <IconPicture />
       </span>
-      <span class="btn__bottom"
+      <span class="text-size-small color-gray"
         >Выберите файл в формате bmp, gif, jpeg, png, tiff, pdf</span
       >
       <input @change="onChangeFile" type="file" hidden />

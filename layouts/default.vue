@@ -5,9 +5,13 @@
         <div class="header__container">
           <Logo />
           <nav class="header__nav">
-            <NuxtLink class="header__nav_link" to="/">Главная</NuxtLink>
-            <NuxtLink class="header__nav_link none" to="">О сервисе</NuxtLink>
-            <NuxtLink class="header__nav_link none" to=""
+            <NuxtLink class="header__nav_link text-size-default" to="/"
+              >Главная</NuxtLink
+            >
+            <NuxtLink class="header__nav_link text-size-default none" to=""
+              >О сервисе</NuxtLink
+            >
+            <NuxtLink class="header__nav_link text-size-default none" to=""
               >Личный кабинет</NuxtLink
             >
           </nav>
@@ -21,7 +25,9 @@
       <div class="container">
         <div class="footer__container">
           <div class="">
-            <div class="footer__title">Способы связаться с нами</div>
+            <div class="footer__title text-size-default">
+              Способы связаться с нами
+            </div>
             <div class="footer__list">
               <div class="footer__item">
                 <span>Email</span>
@@ -40,7 +46,9 @@
             </div>
           </div>
           <div class="">
-            <div class="footer__title">ООО «…» ИНН … © 2025</div>
+            <div class="footer__title text-size-default">
+              ООО «…» ИНН … © 2025
+            </div>
             <div class="footer__item">
               <NuxtLink class="footer__link" to="/policy"
                 >Политика конфиденциальности и обработки данных</NuxtLink
@@ -86,7 +94,6 @@
 }
 
 .header__nav_link {
-  font-size: 20px;
   font-weight: 700;
   letter-spacing: var(--letter-spacing);
 
@@ -126,13 +133,8 @@
 }
 
 .footer__title {
-  font-size: 20px;
   font-weight: 700;
   margin-bottom: 12px;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
 .footer__item {
