@@ -3,16 +3,22 @@
     <div class="form__flex">
       <span class="label">
         <Field class="input" name="Fn" placeholder="ФН" />
-        <span class="label__question">?</span>
+        <span class="label__question" @click="fnOpen">?</span>
       </span>
       <Field class="input" name="Date" type="date" />
     </div>
     <div class="form__flex">
-      <Field class="input" name="FiscalDocumentId" placeholder="ФД" />
+      <span class="label">
+        <Field class="input" name="FiscalDocumentId" placeholder="ФД" />
+        <span class="label__question" @click="fdOpen">?</span>
+      </span>
       <Field class="input" name="Time" type="time" />
     </div>
     <div class="form__flex">
-      <Field class="input" label="ФН" name="FiscalSign" placeholder="ФП" />
+      <span class="label">
+        <Field class="input" label="ФН" name="FiscalSign" placeholder="ФП" />
+        <span class="label__question" @click="fpOpen">?</span>
+      </span>
       <Field class="input" name="Sum" placeholder="Сумма" />
     </div>
     <div class="form__flex">
@@ -36,6 +42,9 @@ import { Field } from "vee-validate";
 
 const props = defineProps({
   onSubmit: Function,
+  fnOpen: Function,
+  fdOpen: Function,
+  fpOpen: Function,
 });
 </script>
 

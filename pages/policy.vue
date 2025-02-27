@@ -121,7 +121,7 @@
         <p>
           Если у вас есть вопросы по поводу данной Политики или обработки ваших
           данных, свяжитесь с нами по почте
-          <a class="text-decoration" :href="`mailto:${SITE_INFO.mail}`">{{
+          <a class="underline" :href="`mailto:${SITE_INFO.mail}`">{{
             SITE_INFO.mail
           }}</a>
         </p>
