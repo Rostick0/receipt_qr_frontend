@@ -70,38 +70,42 @@
       height="706"
     />
   </UiModalHint>
-  <Receipt />
+  <Receipt :receipt="receipt" />
 </template>
 
 <script setup>
 import moment from "moment";
 import { useForm } from "vee-validate";
 
+const receipt = ref();
 const { handleSubmit } = useForm();
 
 const fetchCheck = async (values) => {
   try {
     const res = await $fetch("https://proverka-cheka.ru/ticket/send", {
       method: "post",
-      body: new URLSearchParams(values),
-      // body: new URLSearchParams({
-      //   // Date: "20240507T140900",
-      //   // Sum: 85.0,
-      //   // Fn: 7281440701497843,
-      //   // FiscalDocumentId: 111740,
-      //   // FiscalSign: 3623054715,
-      //   // TypeOperation: 1,
-      //   // ...values,
-      //   // Date: moment(Date + " " + Time).format("YMMDDTHHmmss"),
-      // }).toString(),
+      // body: new URLSearchParams(values),
+      body: new URLSearchParams({
+        Date: "20240507T140900",
+        Sum: 85.0,
+        Fn: 7281440701497843,
+        FiscalDocumentId: 111740,
+        FiscalSign: 3623054715,
+        TypeOperation: 1,
+      }).toString(),
     });
+
+    receipt.value = res?.fiscalDocument;
   } catch {
     console.log(5);
   }
 };
 
 const onSubmit = handleSubmit(async ({ Date, Time, ...values }) => {
-  // await fetchCheck()
+  await fetchCheck({
+    ...values,
+    Date: moment(Date + " " + Time).format("YMMDDTHHmmss"),
+  });
   // console.log(res);
   // const res = await useFetch({
   //   url: "https://proverka-cheka.ru/ticket/send",
