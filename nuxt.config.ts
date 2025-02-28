@@ -4,7 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   pages: true,
   css: ["~/assets/scss/index.scss"],
-  modules: ["composable-ui", "@nuxtjs/device", "@nuxtjs/tailwindcss", "@nuxt/image"],
+  modules: [
+    "composable-ui",
+    "@nuxtjs/device",
+    "@nuxtjs/tailwindcss",
+    "@nuxt/image",
+  ],
   components: [
     {
       path: "~/@component-ui/components",

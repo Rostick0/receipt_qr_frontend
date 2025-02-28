@@ -1,16 +1,18 @@
 <template>
   <CuiBaseModal :="props">
     <template #default="{ close, isActive, open }">
-      <template v-if="typeShow">
-        <div v-show="isActive" class="modal" @click.self="close">
-          <slot :="{ open }" />
-        </div>
-      </template>
-      <template v-else>
-        <div v-if="isActive" class="modal" @click.self="close">
-          <slot :="{ open }" />
-        </div>
-      </template>
+      <Transition name="opacity">
+        <template v-if="typeShow">
+          <div v-show="isActive" class="modal" @click.self="close">
+            <slot :="{ open }" />
+          </div>
+        </template>
+        <template v-else>
+          <div v-if="isActive" class="modal" @click.self="close">
+            <slot :="{ open }" />
+          </div>
+        </template>
+      </Transition>
     </template>
   </CuiBaseModal>
 </template>

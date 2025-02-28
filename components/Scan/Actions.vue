@@ -82,9 +82,9 @@ onMounted(() => {
   });
 });
 
-// onUnmounted(() => {
-//   htmlscanner.value?.stop();
-// });
+onUnmounted(() => {
+  if (htmlscanner.value?.isScanning) htmlscanner.value?.stop();
+});
 
 watch(
   () => isActive.value,

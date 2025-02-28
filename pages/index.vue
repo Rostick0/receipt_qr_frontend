@@ -70,7 +70,14 @@
       height="706"
     />
   </UiModalHint>
-  <Receipt :receipt="receipt" />
+  <Transition name="go-right">
+    <div v-if="true || isShowReceipt" class="receipt-modal">
+      <button @click="isShowReceipt = false" class="receipt-modal__close">
+        <IconArrow />
+      </button>
+      <LazyReceipt :receipt="receipt" />
+    </div>
+  </Transition>
 </template>
 
 <script setup>
@@ -79,6 +86,8 @@ import { useForm } from "vee-validate";
 
 const receipt = ref();
 const { handleSubmit } = useForm();
+
+const isShowReceipt = ref();
 
 const fetchCheck = async (values) => {
   try {
@@ -130,6 +139,17 @@ const fpModal = "fpModal";
 const { open: fpOpen, close: fpClose } = useModal({
   name: fpModal,
 });
+
+watch(
+  () => receipt.value,
+  (cur) => {
+    console.log(5);
+    isShowReceipt.value = true;
+  }
+  // {
+  //   deep: true,
+  // }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -148,5 +168,27 @@ const { open: fpOpen, close: fpClose } = useModal({
       flex-basis: calc(50% - 12px);
     }
   }
+}
+
+.receipt-modal {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  // transform: translateX(150%);
+  max-width: 100vw;
+  height: 100%;
+}
+
+.receipt-modal__close {
+  background: rgba(51, 51, 51, 1);
+  border-radius: 50%;
+  display: flex;
+  padding: 12px 13px;
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 </style>

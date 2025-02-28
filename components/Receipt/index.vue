@@ -1,70 +1,92 @@
 <template>
   <div class="receipt">
-    <div class="receipt__top border-bottom-gray">
-      <div class="h2 text-center py-6">Чек успешно подтвержден ✅</div>
-    </div>
-    <div class="receipt__center">
-      <div class="text-size-default text-center font-bold mb-1.5">
-        {{ operationTypes[receipt?.content?.operationType] }}
+    <div class="receipt__print" ref="receiptPrint">
+      <div class="receipt__top border-bottom-gray">
+        <div class="h2 text-center py-6">Чек успешно подтвержден ✅</div>
       </div>
-      <div class="text-size-default text-center mb-6">
-        {{ moment(receipt?.content?.dateTime).format("DD.MM.YYYY HH:mm") }}
-      </div>
+      <div class="receipt__center">
+        <div class="text-size-default text-center font-bold mb-1.5">
+          {{ operationTypes[receipt?.content?.operationType] }}
+        </div>
+        <div class="text-size-default text-center mb-6">
+          {{ moment(receipt?.content?.dateTime).format("DD.MM.YYYY HH:mm") }}
+        </div>
 
-      <div class="mb-1.5">Смена {{ receipt?.content?.shiftNumber }}</div>
-      <div class="" v-if="receipt?.content?.operator">
-        Кассир {{ receipt?.content?.operator }}
-      </div>
-      <div class="my-6">
-        <ReceiptProducts
-          class="border-bottom-gray pb-3 mb-3"
-          :products="receipt?.content?.items"
-        />
-        <div class="border-bottom-gray flex flex-col gap-y-1.5 pb-3">
-          <div class="flex justify-between font-bold text-size-default">
-            <span>Итого</span>
-            <span>1 350,00</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Наличными</span>
-            <span>1 350,00</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Безналичными</span>
-            <span>0,00</span>
-          </div>
-          <div class="flex justify-between">
-            <span>НДС 18%</span>
-            <span>243,00</span>
+        <div class="mb-1.5">Смена {{ receipt?.content?.shiftNumber }}</div>
+        <div class="" v-if="receipt?.content?.operator">
+          Кассир {{ receipt?.content?.operator }}
+        </div>
+        <div class="my-6">
+          <ReceiptProducts
+            class="border-bottom-gray pb-3 mb-3"
+            :products="receipt?.content?.items"
+          />
+          <div class="border-bottom-gray flex flex-col gap-y-1.5 pb-3">
+            <div class="flex justify-between font-bold text-size-default">
+              <span>Итого</span>
+              <span>{{ priceFormat(receipt?.content?.totalSum / 100) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Наличными</span>
+              <span>{{
+                priceFormat(receipt?.content?.cashTotalSum / 100)
+              }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Безналичными</span>
+              <span>{{
+                priceFormat(
+                  ((receipt?.content?.creditSum ?? 0) +
+                    (receipt?.content?.ecashTotalSum ?? 0)) /
+                    100
+                )
+              }}</span>
+            </div>
+            <div v-if="receipt?.content?.ndsNo" class="flex justify-between">
+              <span>БЕЗ НДС</span>
+              <span>{{ priceFormat(receipt?.content?.ndsNo / 100) }}</span>
+            </div>
+            <div v-if="receipt?.content?.nds0" class="flex justify-between">
+              <span>НДС 0%</span>
+              <span>{{ priceFormat(receipt?.content?.nds0 / 100) }}</span>
+            </div>
+            <div v-if="receipt?.content?.nds10" class="flex justify-between">
+              <span>НДС 10%</span>
+              <span>{{ priceFormat(receipt?.content?.nds10 / 100) }}</span>
+            </div>
+            <div v-if="receipt?.content?.nds18" class="flex justify-between">
+              <span>НДС 20%</span>
+              <span>{{ priceFormat(receipt?.content?.nds18 / 100) }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="">
-        <div class="font-bold">{{ receipt?.content?.user }}</div>
-        <div class="grid grid-cols-2 gap-1.5 mt-6">
-          <div>
-            ИНН {{ receipt?.content?.userInn }}
-            {{ appliedTaxationTypes[receipt?.content?.appliedTaxationType] }}
+        <div class="">
+          <div class="font-bold">{{ receipt?.content?.user }}</div>
+          <div class="grid grid-cols-2 gap-1.5 mt-6">
+            <div>
+              ИНН {{ receipt?.content?.userInn }}
+              {{ appliedTaxationTypes[receipt?.content?.appliedTaxationType] }}
+            </div>
+            <div>РН ККТ {{ receipt?.content?.kktRegId }}</div>
+
+            <div>
+              {{
+                `${receipt?.content?.retailPlace ?? ""} ${
+                  receipt?.content?.retailPlaceAddress ?? ""
+                }`.trim()
+              }}
+            </div>
+            <div>ФН № {{ receipt?.content?.fiscalDriveNumber }}</div>
+
+            <div>ФД № {{ receipt?.content?.fiscalDocumentNumber }}</div>
+
+            <span>ФП № {{ receipt?.content?.fiscalSign }}</span>
           </div>
-          <div>РН ККТ {{ kktRegId }}</div>
-
-          <div>
-            {{
-              `${receipt?.content?.retailPlace ?? ""} ${
-                receipt?.content?.retailPlaceAddress ?? ""
-              }`.trim()
-            }}
-          </div>
-          <div>ФН № {{ receipt?.content?.fiscalDriveNumber }}</div>
-
-          <div>ФД № {{ receipt?.content?.fiscalDocumentNumber }}</div>
-
-          <span>ФП № {{ receipt?.content?.fiscalSign }}</span>
         </div>
       </div>
     </div>
     <div class="receipt__bottom border-top-gray">
-      <button class="receipt__btn btn">
+      <button class="receipt__btn btn" @click="printComponent">
         <IconPrint />
         <span>Рапечатать</span>
       </button>
@@ -82,6 +104,8 @@ import moment from "moment";
 const props = defineProps({
   // receipt: Object,
 });
+
+const receiptPrint = ref();
 
 const receipt = {
   id: 5286185079184489000,
@@ -156,6 +180,8 @@ const receipt = {
     redefine_mask: 0,
   },
 };
+
+const printComponent = () => printHtml(receiptPrint.value.innerHTML);
 </script>
 
 <style lang="scss" scoped>
@@ -163,9 +189,6 @@ const receipt = {
   background-color: var(--color-white);
   display: flex;
   flex-direction: column;
-  position: fixed;
-  top: 0;
-  right: 0;
   width: 100%;
   max-width: 716px;
   height: 100%;
@@ -189,5 +212,9 @@ const receipt = {
   align-items: center;
   column-gap: 6px;
   padding: 12px 48px;
+
+  svg {
+    flex-shrink: 0;
+  }
 }
 </style>
