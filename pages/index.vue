@@ -71,29 +71,30 @@
     />
   </UiModalHint>
   <Transition name="go-right">
-    <div v-if="true || isShowReceipt" class="receipt-modal">
+    <div v-if="isShowReceipt" class="receipt-modal">
       <button @click="isShowReceipt = false" class="receipt-modal__close">
         <IconArrow />
       </button>
-      <LazyReceipt :receipt="receipt" />
+      <LazyReceipt class="receipt-modal__innner" :receipt="receipt" />
     </div>
   </Transition>
 </template>
 
 <script setup>
 import moment from "moment";
+import debounce from "lodash/debounce";
 import { useForm } from "vee-validate";
 
 const receipt = ref();
 const { handleSubmit } = useForm();
 
-const isShowReceipt = ref();
+const isShowReceipt = ref(true);
 
 const fetchCheck = async (values) => {
   try {
     const res = await $fetch("https://proverka-cheka.ru/ticket/send", {
       method: "post",
-      // body: new URLSearchParams(values),
+      // body: new URLSearchParams(values).toString(),
       body: new URLSearchParams({
         Date: "20240507T140900",
         Sum: 85.0,
@@ -110,20 +111,14 @@ const fetchCheck = async (values) => {
   }
 };
 
-const onSubmit = handleSubmit(async ({ Date, Time, ...values }) => {
-  await fetchCheck({
-    ...values,
-    Date: moment(Date + " " + Time).format("YMMDDTHHmmss"),
-  });
-  // console.log(res);
-  // const res = await useFetch({
-  //   url: "https://proverka-cheka.ru/ticket/send",
-  //   body: values,
-  // });
-  // console.log(res);
-  // const res = await $fetch.create({
-  // })
-});
+const onSubmit = handleSubmit(
+  debounce(async ({ Date, Time, ...values }) => {
+    await fetchCheck({
+      ...values,
+      Date: moment(Date + " " + Time).format("YMMDDTHHmmss"),
+    });
+  }, 500)
+);
 
 const fnModal = "fnModal";
 const { open: fnOpen, close: fnClose } = useModal({
@@ -168,6 +163,10 @@ watch(
       flex-basis: calc(50% - 12px);
     }
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .receipt-modal {
@@ -177,7 +176,7 @@ watch(
   top: 0;
   right: 0;
   // transform: translateX(150%);
-  max-width: 100vw;
+  max-width: calc(100vw - 24px);
   height: 100%;
 }
 
@@ -190,5 +189,9 @@ watch(
   left: 0;
   transform: translateX(-50%);
   z-index: 1;
+}
+
+.receipt-modal__innner {
+  box-shadow: 0px 0px 6.1px 0px rgba(0, 0, 0, 0.29);
 }
 </style>

@@ -150,7 +150,7 @@ body {
 
 .form__flex {
   display: flex;
-  column-gap: 6px;
+  gap: 6px;
 
   & > * {
     flex-shrink: 0;

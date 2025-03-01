@@ -16,11 +16,13 @@
   letter-spacing: -0.03em;
 
   @media (max-width: 1280px) {
+    column-gap: 12px;
     font-size: 40px;
   }
 
   @media (max-width: 1024px) {
     font-size: 24px;
+    column-gap: 6px;
   }
 }
 
@@ -32,7 +34,7 @@
 
   @media (max-width: 1024px) {
     width: 20px;
-    width: 20px;
+    height: 20px;
   }
 }
 </style>

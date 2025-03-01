@@ -1,5 +1,5 @@
 <template>
-  <div class="form__flex">
+  <div class="form__flex max-lg:flex-col">
     <button class="btn" @click="open">
       <span class="btn__top">
         <span>Проверить</span>

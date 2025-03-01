@@ -194,10 +194,17 @@ const printComponent = () => printHtml(receiptPrint.value.innerHTML);
   height: 100%;
 }
 
-.receipt__center {
-  flex-grow: 1;
+.receipt__print {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   overflow: auto;
+}
+
+.receipt__center {
+  flex: 1 1 auto;
   padding: 24px 48px;
+  overflow: auto;
 }
 
 .receipt__bottom {

@@ -4,17 +4,25 @@
       <div class="container">
         <div class="header__container">
           <Logo />
-          <nav class="header__nav">
-            <NuxtLink class="header__nav_link text-size-default" to="/"
-              >Главная</NuxtLink
-            >
-            <NuxtLink class="header__nav_link text-size-default none" to=""
-              >О сервисе</NuxtLink
-            >
-            <NuxtLink class="header__nav_link text-size-default none" to=""
-              >Личный кабинет</NuxtLink
-            >
-          </nav>
+          <button class="hidden max-lg:block" title="Меню">
+            <IconBurger class="" @click="isShowMenu = true" />
+          </button>
+          <div class="header__menu" :class="{ active: isShowMenu }">
+            <button class="hidden max-lg:block" title="Закрыть">
+              <IconCross class="header__cross" @click="isShowMenu = false" />
+            </button>
+            <nav class="header__nav">
+              <NuxtLink class="header__nav_link text-size-default" to="/"
+                >Главная</NuxtLink
+              >
+              <NuxtLink class="header__nav_link text-size-default none" to=""
+                >О сервисе</NuxtLink
+              >
+              <NuxtLink class="header__nav_link text-size-default none" to=""
+                >Личный кабинет</NuxtLink
+              >
+            </nav>
+          </div>
         </div>
       </div>
     </header>
@@ -61,6 +69,10 @@
   </div>
 </template>
 
+<script setup>
+const isShowMenu = ref();
+</script>
+
 <style lang="scss" scoped>
 .wrapper {
   display: flex;
@@ -82,15 +94,46 @@
   }
 }
 
+.header__menu {
+  @media (max-width: 1024px) {
+    background: var(--background-layout);
+    padding: 20px;
+    position: fixed;
+    transform: translateX(150%);
+    transition: transform 0.75s ease;
+    top: 0;
+    right: 0;
+    height: 100%;
+
+    &.active {
+      transform: translateX(0);
+    }
+  }
+}
+
 .header__container {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+
+  @media (max-width: 1024px) {
+    align-items: center;
+  }
+}
+
+.header__cross {
+  position: absolute;
+  top: 6px;
+  right: 6px;
 }
 
 .header__nav {
   display: flex;
-  column-gap: 25px;
+  gap: 12px 25px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
 .header__nav_link {
@@ -129,12 +172,22 @@
 
 .footer__container {
   display: flex;
-  column-gap: 96px;
+  flex-wrap: wrap;
+  gap: 20px 96px;
+
+  @media (max-width: 1024px) {
+    justify-content: space-between;
+    column-gap: 48px;
+  }
 }
 
 .footer__title {
   font-weight: 700;
   margin-bottom: 12px;
+
+  @media (max-width: 1024px) {
+    margin-bottom: 6px;
+  }
 }
 
 .footer__item {
