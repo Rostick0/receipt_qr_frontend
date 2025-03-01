@@ -15,10 +15,10 @@ services:
     build:
       dockerfile: ../docker/nuxt/Dockerfile
       context: './../frontend'
+      args:
+        - BASE_URL=https://https://proverka-cheka.ru/
+        - API_URL=https://https://proverka-cheka.ru//api
     image: nginx:latest
-    args:
-      - BASE_URL=https://https://proverka-cheka.ru/
-      - API_URL=https://https://proverka-cheka.ru//api
     environment:
       - HOST=0.0.0.0
       - PORT=5001
