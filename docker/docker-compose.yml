@@ -24,6 +24,7 @@ services:
       - PORT=5001
     restart: "unless-stopped"
     ports:
+      - "24678:24678"
       - '5001:80'
       - '445:443'
     networks:
