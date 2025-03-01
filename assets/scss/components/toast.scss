@@ -1,0 +1,24 @@
+.Vue-Toastification__container {
+  width: 100%;
+  max-width: 648px;
+}
+
+.Vue-Toastification__toast {
+  padding: 12px;
+  width: 100%;
+  max-width: 648px;
+}
+.Vue-Toastification__toast.bottom-left {
+  // left: ;
+  bottom: 6rem;
+}
+
+.Vue-Toastification__toast--error {
+  background: rgba(237, 212, 212, 1);
+  color: rgba(87, 21, 21, 1);
+}
+
+.Vue-Toastification__toast--success {
+  background: rgba(236, 237, 212, 1);
+  color: rgba(87, 87, 21, 1);
+}

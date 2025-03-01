@@ -6,6 +6,12 @@
   </NuxtLayout>
 </template>
 
+<script setup>
+// import moment from "moment";
+
+// moment.locale("ru");
+</script>
+
 <style lang="scss">
 .opacity-enter-active,
 .opacity-leave-active {

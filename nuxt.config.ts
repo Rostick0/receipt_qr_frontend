@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   pages: true,
+
+  build: {
+    transpile: ["vue-toastification"],
+  },
   css: ["~/assets/scss/index.scss"],
   modules: [
     "composable-ui",

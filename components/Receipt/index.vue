@@ -2,14 +2,18 @@
   <div class="receipt">
     <div class="receipt__print" ref="receiptPrint">
       <div class="receipt__top border-bottom-gray">
-        <div class="h2 text-center py-6">Чек успешно подтвержден ✅</div>
+        <div class="h2 text-center">Чек успешно подтвержден ✅</div>
       </div>
       <div class="receipt__center">
         <div class="text-size-default text-center font-bold mb-1.5">
           {{ operationTypes[receipt?.content?.operationType] }}
         </div>
         <div class="text-size-default text-center mb-6">
-          {{ moment(receipt?.content?.dateTime).format("DD.MM.YYYY HH:mm") }}
+          {{
+            moment(receipt?.content?.dateTime?.replace("Z", "")).format(
+              "DD.MM.YYYY HH:mm"
+            )
+          }}
         </div>
 
         <div class="mb-1.5">Смена {{ receipt?.content?.shiftNumber }}</div>
@@ -62,7 +66,7 @@
         </div>
         <div class="">
           <div class="font-bold">{{ receipt?.content?.user }}</div>
-          <div class="grid grid-cols-2 gap-1.5 mt-6">
+          <div class="grid grid-cols-2 gap-1.5 mt-6 max-sm:grid-cols-1">
             <div>
               ИНН {{ receipt?.content?.userInn }}
               {{ appliedTaxationTypes[receipt?.content?.appliedTaxationType] }}
@@ -201,17 +205,37 @@ const printComponent = () => printHtml(receiptPrint.value.innerHTML);
   overflow: auto;
 }
 
+.receipt__top {
+  padding: 24px 48px;
+
+  @media (max-width: 1024px) {
+    padding: 16px 24px;
+  }
+}
+
 .receipt__center {
   flex: 1 1 auto;
   padding: 24px 48px;
   overflow: auto;
+
+  @media (max-width: 1024px) {
+    padding: 16px 24px;
+  }
 }
 
 .receipt__bottom {
   display: flex;
   justify-content: center;
-  column-gap: 24px;
+  gap: 12px 24px;
   padding: 24px 48px;
+
+  @media (max-width: 1024px) {
+    padding: 16px 24px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .receipt__btn {
@@ -222,6 +246,10 @@ const printComponent = () => printHtml(receiptPrint.value.innerHTML);
 
   svg {
     flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
   }
 }
 </style>

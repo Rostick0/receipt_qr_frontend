@@ -32,6 +32,15 @@
 const { Html5Qrcode } = await import("html5-qrcode");
 import debounce from "lodash/debounce";
 import moment from "moment";
+import Toast from "~/components/Ui/Toast.vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+
+const props = defineProps({
+  errorFindReceipt: Function,
+});
+
 const tagId = useId();
 
 const scanModal = "scanModal";
@@ -70,8 +79,7 @@ const onChangeFile = async (e) => {
     .scanFileV2(imageFile, false)
     .then((scanRes) => scanSuccess(scanRes?.decodedText))
     .catch((err) => {
-      // failure, handle it.
-      alert(`Ошибка сканирования: чек не найден`);
+      props?.errorFindReceipt?.();
     });
 };
 
@@ -88,9 +96,12 @@ onUnmounted(() => {
 
 watch(
   () => isActive.value,
-  (cur) => {
-    if (cur) {
-      htmlscanner.value?.start(
+  async (cur) => {
+    if (!cur)
+      return htmlscanner.value?.isScanning && (await htmlscanner.value?.stop());
+
+    try {
+      await htmlscanner.value?.start(
         { facingMode: "environment" },
         {
           fps: 10,
@@ -98,10 +109,17 @@ watch(
         },
         scanSuccess
       );
-      return;
+    } catch {
+      isActive.value = false;
+      toast.error({
+        component: Toast,
+        props: {
+          title: "Веб-камера не найдена",
+          content:
+            "Проверьте разрешение в вашем браузере, а также включена ли и подключена веб-камера",
+        },
+      });
     }
-
-    htmlscanner.value?.stop();
   }
 );
 </script>

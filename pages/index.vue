@@ -14,7 +14,7 @@
           :fdOpen="fdOpen"
           :fpOpen="fpOpen"
         />
-        <ScanActions @scan="fetchCheck" />
+        <ScanActions @scan="fetchCheck" :errorFindReceipt="errorFindReceipt" />
         <p class="color-gray mt-6">
           Загружая фискальный документ (чек) на наш сервис, вы соглашаетесь с
           <NuxtLink class="color-gray underline" to="/policy"
@@ -84,38 +84,62 @@
 import moment from "moment";
 import debounce from "lodash/debounce";
 import { useForm } from "vee-validate";
+import { useToast } from "vue-toastification";
+import Toast from "~/components/Ui/Toast.vue";
+
+const toast = useToast();
 
 const receipt = ref();
 const { handleSubmit } = useForm();
 
 const isShowReceipt = ref(true);
 
+const errorFindReceipt = () =>
+  toast.error({
+    component: Toast,
+    props: {
+      title: "Чек не является корректным",
+      content: "Получен отрицательный результат проверки от БД ФНС РФ",
+    },
+  });
+
 const fetchCheck = async (values) => {
   try {
     const res = await $fetch("https://proverka-cheka.ru/ticket/send", {
       method: "post",
-      // body: new URLSearchParams(values).toString(),
-      body: new URLSearchParams({
-        Date: "20240507T140900",
-        Sum: 85.0,
-        Fn: 7281440701497843,
-        FiscalDocumentId: 111740,
-        FiscalSign: 3623054715,
-        TypeOperation: 1,
-      }).toString(),
+      body: new URLSearchParams(values).toString(),
+      // body: new URLSearchParams({
+      //   Date: "20240507T140900",
+      //   Sum: 85.0,
+      //   Fn: 7281440701497843,
+      //   FiscalDocumentId: 111740,
+      //   FiscalSign: 3623054715,
+      //   TypeOperation: 1,
+      // }).toString(),
     });
 
+    if (!res?.success) return errorFindReceipt();
+
     receipt.value = res?.fiscalDocument;
+    toast.success({
+      component: Toast,
+      props: {
+        title: "Чек корректный",
+        content: "Получен положительный результат проверки от БД ФНС РФ",
+      },
+    });
   } catch {
-    console.log(5);
+    errorFindReceipt();
   }
 };
 
 const onSubmit = handleSubmit(
-  debounce(async ({ Date, Time, ...values }) => {
+  debounce(async ({ Date: date, Time, ...values }) => {
     await fetchCheck({
       ...values,
-      Date: moment(Date + " " + Time).format("YMMDDTHHmmss"),
+      Date: moment(new Date(date + " " + Time).valueOf()).format(
+        "YMMDDTHHmmss"
+      ),
     });
   }, 500)
 );
@@ -138,7 +162,6 @@ const { open: fpOpen, close: fpClose } = useModal({
 watch(
   () => receipt.value,
   (cur) => {
-    console.log(5);
     isShowReceipt.value = true;
   }
   // {
