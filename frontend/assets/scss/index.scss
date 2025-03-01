@@ -97,18 +97,18 @@ body {
 }
 
 .input {
-  @include ui-my-component;
-
   &::placeholder {
     color: var(--color-gray);
   }
+
+  @include ui-my-component;
 }
 
 .btn {
-  @include ui-my-component;
-
   background-color: var(--button-color);
   text-align: center;
+
+  @include ui-my-component;
 }
 
 .field {
