@@ -16,8 +16,8 @@ services:
       dockerfile: ../docker/nuxt/Dockerfile
       context: './../frontend'
       args:
-        - BASE_URL=https://https://proverka-cheka.ru/
-        - API_URL=https://https://proverka-cheka.ru/api
+        - BASE_UR=https://proverka-cheka.ru/
+        - API_UR=https://proverka-cheka.ru/api
     image: nginx:latest
     environment:
       - HOST=0.0.0.0
