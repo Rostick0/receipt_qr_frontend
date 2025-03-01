@@ -11,7 +11,7 @@ volumes:
   node_modules: {}
 
 services:
-  my_frontend:
+  receipt_frontend:
     build:
       dockerfile: ../docker/nuxt/Dockerfile
       context: './../frontend'
