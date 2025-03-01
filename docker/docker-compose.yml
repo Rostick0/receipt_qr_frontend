@@ -11,21 +11,21 @@ volumes:
   node_modules: {}
 
 services:
-  receipt_frontend:
+  my_frontend:
     build:
       dockerfile: ../docker/nuxt/Dockerfile
       context: './../frontend'
       args:
-        - BASE_UR=https://proverka-cheka.ru/
-        - API_UR=https://proverka-cheka.ru/api
+        - BASE_URL=https://proverka-cheka.ru/
+        - API_URL=https://proverka-cheka.ru/api
     image: nginx:latest
     environment:
       - HOST=0.0.0.0
-      - PORT=5001
-    restart: "unless-stopped"
+      - PORT=3000
+    restart: "no"
     ports:
-      - "24678:24678"
-      - '5001:3000'
+      - "24681:24678"
+      - "5001:3000"
     networks:
       - nuxt-network
       - default
