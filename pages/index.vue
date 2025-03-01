@@ -92,7 +92,7 @@ const toast = useToast();
 const receipt = ref();
 const { handleSubmit } = useForm();
 
-const isShowReceipt = ref(true);
+const isShowReceipt = ref(false);
 
 const errorFindReceipt = () =>
   toast.error({
@@ -141,7 +141,10 @@ const onSubmit = handleSubmit(
         "YMMDDTHHmmss"
       ),
     });
-  }, 500)
+  }, 500),
+  (err) => {
+    console.log(err);
+  }
 );
 
 const fnModal = "fnModal";

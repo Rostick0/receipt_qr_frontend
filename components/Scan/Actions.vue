@@ -2,7 +2,7 @@
   <div class="form__flex max-lg:flex-col">
     <button class="btn" @click="open">
       <span class="btn__top">
-        <span>Проверить</span>
+        <span>Сканирование QR-кода</span>
         <IconQrCode />
       </span>
       <span class="text-size-small color-gray"
