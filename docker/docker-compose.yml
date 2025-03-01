@@ -1,0 +1,28 @@
+version: '3'
+
+networks:
+  nuxt-network:
+    driver: bridge
+  default:
+
+
+volumes:
+  public-storage:
+  node_modules: {}
+
+services:
+  rentcaruae_frontend:
+    build:
+      dockerfile: ../docker/nuxt/Dockerfile
+      context: './../frontend'
+    image: nginx:latest
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5000
+    restart: "unless-stopped"
+    ports:
+      - '5000:80'
+      - '444:443'
+    networks:
+      - nuxt-network
+      - default
